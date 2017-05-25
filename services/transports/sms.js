@@ -23,61 +23,44 @@
 
 'use strict';
 
-let services = null;
-
-function servicesInit(config) {
-
-    let transports = []
-
-    if (config.services) {
-
-        if (config.services.m2x) {
-            const m2x = require('./transports/m2x');
-            transports.push(m2x);
-        }
-
-        if (config.services.predix) {
-            const predix = require('./transports/predix');
-            transports.push(predix);
-        }
-
-        if (config.services.sap) {
-            const sap = require('./transports/sap');
-            transports.push(sap);
-        }
-
-        if (config.services.mqtt) {
-            const mqtt = require('./transports/mqtt');
-            transports.push(mqtt);
-        }
-
-        if (config.services.sms) {
-            const sms = require('./transports/sms');
-            transports.push(sms);
-        }
-
-    }
-
-    return transports;
-
-}
+// The program is using the `superagent` module
+// to make the remote calls to the sms service
+var request = require("superagent");
 
 function publish(config, payload) {
 
-    if (!services) {
-        services = servicesInit(config);
+    if (!config.services && !config.services.sms) {
+        return;
     }
 
-    services.forEach((service, index, obj) => service.publish(config, payload));
+    const sms_url = config.services.sms.url;
+    const sms_user = config.services.sms.user;
+    const sms_pass = config.services.sms.pass;
 
-}
+    if (!sms_url || !sms_user || !sms_pass) {
+        console.error("Missing required SMS config values.");
+        return;
+    }
 
-function increment(config) {
-    const payload = { counter: new Date().toISOString() };
-    publish(config, payload);
+    function callback(err, res) {
+        if (err) {
+            return console.error("err:", err);
+        } else {
+            return console.log("Published to SMS service:", payload);
+        }
+    }
+
+    console.log("Publishing to SMS service.");
+
+    request
+        .get(sms_url)
+        .query({user: sms_user})
+        .query({pass: sms_pass})
+        .query({msg: payload.value})
+        .end(callback);
+
 }
 
 module.exports = {
-    log: publish,
-    increment: increment
-};
+    publish: publish,
+}
