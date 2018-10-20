@@ -1,5 +1,12 @@
 {
   "kit": "grove",
   "CODE": "4321",
-  "NOISE_THRESHOLD": 130
+  "NOISE_THRESHOLD": 130,
+  "services": {
+    "sms": {
+      "url": "https://smsapi.free-mobile.fr/sendmsg",
+      "user": "",
+      "pass": ""
+    }
+  }
 }
