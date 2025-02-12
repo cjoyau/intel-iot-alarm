@@ -2,3 +2,9 @@
 xdk
 *.xdk
 *.xdke
+
+# dependencies
+node_modules/
+
+# vscode folder
+.vscode
