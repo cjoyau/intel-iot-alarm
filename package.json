@@ -6,7 +6,7 @@
     "node": ">=4.4.0"
   },
   "dependencies": {
-    "express": "^4.13.3",
+    "express": "^4.22.1",
     "mqtt": "^2.5.2",
     "node-fetch": "^2.6.1",
     "superagent": "^3.7.0",
