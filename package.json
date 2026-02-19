@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "express": "^4.22.1",
-    "mqtt": "^2.5.2",
+    "mqtt": "^5.15.0",
     "node-fetch": "^2.6.1",
     "superagent": "^3.7.0",
     "uuid": "^3.0.1",
